@@ -6,6 +6,7 @@ import { ICitiesResponse, ICitiesResult } from './types/cities-page';
 import { IPlacesResponse, IPlacesResult } from './types/places-page';
 import { IPlaceResponse, IPlaceResult } from './types/place-page';
 import { ISearchResponse, ISearchResult } from './types/search-page';
+import { IPostResult, IPostResponse } from './types/post-page';
 
 export default class Nanogram {
   private readonly INSTAGRAM_HOSTNAME: string;
@@ -27,7 +28,6 @@ export default class Nanogram {
       if (useRegExp) {
         data = content.replace(this.SHARED_DATA_TAG_EXP, '$1');
       }
-
       return JSON.parse(data);
     } catch (error) {
       console.error(`Nanogram: failure during parsing JSON.\nError message: ${error.message}`);
@@ -213,5 +213,16 @@ export default class Nanogram {
     const { users = null, hashtags = null, places = null } = await this.HTTP<ISearchResponse>(url, false);
 
     return { ...result, ...{ media: { users, hashtags, places }, ok: Boolean(users || hashtags || places) } };
+  }
+
+  public async getPostById(id: string): Promise<IPostResult> {
+    const result: IPostResult = {
+      entry_data: null,
+      ok: false,
+    };
+    const url = this.buildUrl(`p/${id}`);
+    const { entry_data = null } = await this.HTTP<IPostResponse>(url);
+
+    return { ...result, ...{ entry_data, ok: Boolean(entry_data) } };
   }
 }
