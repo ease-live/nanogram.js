@@ -10,7 +10,7 @@
     "instagram-api"
   ],
   "publishConfig": {
-    "registry": "https://sixty.jfrog.io/sixty/api/npm/npm/"
+    "registry": "https://easelive.jfrog.io/artifactory/api/npm/npm/"
   },
   "main": "dist/nanogram.cjs.js",
   "module": "dist/nanogram.esm.js",
